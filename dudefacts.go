@@ -192,7 +192,7 @@ func printUserFactContext(command *bot.Cmd, matches []string) (msg string, err e
 	}
 
 	input_nick := matches[1]
-	input_fact_num, err := strconv.Atoi(matches[2])
+	input_fact_num, _ := strconv.Atoi(matches[2])
 	fct_num := input_fact_num - 1
 	var output string
 
