@@ -44,7 +44,7 @@ func addToFactContext(command *bot.PassiveCmd) (string, error) {
 }
 
 func loadFacts() {
-	if dudefactsloaded == false {
+	if !dudefactsloaded {
 		dudefactsfile, e := ioutil.ReadFile(".dudefacts.json")
 		if e != nil {
 			fmt.Printf("File error: %v\n", e)
@@ -54,7 +54,6 @@ func loadFacts() {
 		json.Unmarshal(dudefactsfile, &dudefacts)
 		dudefactsloaded = true
 	}
-	return
 }
 
 func writeFacts() {
@@ -73,9 +72,8 @@ func writeFacts() {
 func buildLineItem(i int, dudefact Fact) string {
 	var fct string = dudefact.Content
 	var item string
-	var idx int
 
-	idx = i + 1
+	idx := i + 1
 
 	item = fmt.Sprintf("[%02d", idx)
 
@@ -89,7 +87,7 @@ func buildLineItem(i int, dudefact Fact) string {
 }
 
 func voteFact(command *bot.Cmd, matches []string) (msg string, err error) {
-	if dudefactsloaded == false {
+	if !dudefactsloaded {
 		loadFacts()
 	}
 
@@ -140,7 +138,7 @@ func voteFact(command *bot.Cmd, matches []string) (msg string, err error) {
 }
 
 func addFact(command *bot.Cmd, matches []string) (msg string, err error) {
-	if dudefactsloaded == false {
+	if !dudefactsloaded {
 		loadFacts()
 	}
 
@@ -189,7 +187,7 @@ func addFact(command *bot.Cmd, matches []string) (msg string, err error) {
 }
 
 func printUserFactContext(command *bot.Cmd, matches []string) (msg string, err error) {
-	if dudefactsloaded == false {
+	if !dudefactsloaded {
 		loadFacts()
 	}
 
@@ -219,7 +217,7 @@ func printUserFactContext(command *bot.Cmd, matches []string) (msg string, err e
 }
 
 func printAllUserFacts(command *bot.Cmd, matches []string) (msg string, err error) {
-	if dudefactsloaded == false {
+	if !dudefactsloaded {
 		loadFacts()
 	}
 
@@ -262,7 +260,7 @@ func printAllUserFacts(command *bot.Cmd, matches []string) (msg string, err erro
 }
 
 func printRandomFactUser(command *bot.Cmd, matches []string) (msg string, err error) {
-	if dudefactsloaded == false {
+	if !dudefactsloaded {
 		loadFacts()
 	}
 
@@ -282,15 +280,13 @@ func printRandomFactUser(command *bot.Cmd, matches []string) (msg string, err er
 }
 
 func printRandomFact(command *bot.Cmd, matches []string) (msg string, err error) {
-	if dudefactsloaded == false {
+	if !dudefactsloaded {
 		loadFacts()
 	}
 
 	rd := rand.Int() % len(dudefacts)
 	rf := rand.Int() % len(dudefacts[rd].Facts)
-	var output string
-
-	output = dudefacts[rd].Nickname + ": "
+	output := dudefacts[rd].Nickname + ": "
 	output += buildLineItem(rf, dudefacts[rd].Facts[rf])
 
 	return output, nil
